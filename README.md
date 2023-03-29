@@ -1,4 +1,4 @@
-# week-4-master
+# week4-mini-capstone
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://git.techelevator.com/campuses/nlr/mar-2023/java-purple/student-pairs/base-projects/week-4-master.git
+git remote add origin https://git.techelevator.com/campuses/nlr/oct-2022/java-purple/student-pairs/week4-mini-capstone.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://git.techelevator.com/campuses/nlr/mar-2023/java-purple/student-pairs/base-projects/week-4-master/-/settings/integrations)
+- [ ] [Set up project integrations](https://git.techelevator.com/campuses/nlr/oct-2022/java-purple/student-pairs/week4-mini-capstone/-/settings/integrations)
 
 ## Collaborate with your team
 
