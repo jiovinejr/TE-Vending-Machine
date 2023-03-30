@@ -1,6 +1,7 @@
 package com.techelevator.ui;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -25,7 +26,7 @@ public class UserInput
         System.out.print("Please select an option: ");
 
         String selectedOption = scanner.nextLine();
-        String option = selectedOption.trim().toLowerCase();
+        String option = selectedOption.trim().toUpperCase();
 
         if (option.equals("D"))
         {
