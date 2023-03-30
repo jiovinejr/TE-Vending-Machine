@@ -1,15 +1,13 @@
 package com.techelevator.models;
 
-import com.techelevator.ui.UserOutput;
-
 import java.math.BigDecimal;
 
-public class Drinks extends Product{
+public class Drink extends Product{
 
     private int inventory;
 
-    public Drinks(String slotIdentifier, String name, BigDecimal price) {
-        super(slotIdentifier, name, price, "Drinks");
+    public Drink(String slotIdentifier, String name, BigDecimal price) {
+        super(slotIdentifier, name, price, "Drink");
         inventory = super.getInventory();
     }
 

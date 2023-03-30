@@ -17,7 +17,7 @@ public class ReadDataFile {
    private String dataPath = "";
 
     public List<Product> loadFile() {
-        File dataFile = new File(catering);
+        File dataFile = new File(catering1);
         List<Product> importedProductsList = new ArrayList<>();
 
         try (Scanner dataFileScanner = new Scanner(dataFile)) {
@@ -34,8 +34,8 @@ public class ReadDataFile {
                     if (type.equals("Candy")) {
                         currentProduct = new Candy(slotIdentifier, name, priceAsBigDecimal);
                         }
-                    else if (type.equals("Drinks")) {
-                        currentProduct = new Drinks(slotIdentifier, name, priceAsBigDecimal);
+                    else if (type.equals("Drink")) {
+                        currentProduct = new Drink(slotIdentifier, name, priceAsBigDecimal);
                     }
                     else if (type.equals("Gum")) {
                         currentProduct = new Gum(slotIdentifier, name, priceAsBigDecimal);

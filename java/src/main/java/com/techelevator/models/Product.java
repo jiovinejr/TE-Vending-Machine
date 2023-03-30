@@ -52,4 +52,10 @@ public abstract class Product {
     public int getInventory() {
         return inventory;
     }
+
+    @Override
+    public String toString() {
+        return  slotIdentifier + " " + name + " " + price +
+                " " + type;
+    }
 }
