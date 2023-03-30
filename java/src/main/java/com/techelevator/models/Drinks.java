@@ -1,5 +1,7 @@
 package com.techelevator.models;
 
+import com.techelevator.ui.UserOutput;
+
 import java.math.BigDecimal;
 
 public class Drinks extends Product{
@@ -19,4 +21,7 @@ public class Drinks extends Product{
     public void setInventory(int inventory) {
         this.inventory = inventory;
     }
+
+
+
 }
