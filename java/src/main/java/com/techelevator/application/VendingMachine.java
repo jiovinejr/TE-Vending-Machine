@@ -13,16 +13,19 @@ public class VendingMachine
 {
     public void run()
     {
+
         while(true)
         {
             UserOutput.displayHomeScreen();
             String choice = UserInput.getHomeScreenOption();
 
+            ReadDataFile fileInput = new ReadDataFile();
+            List<Product> products = fileInput.loadFile();
+
             if(choice.equals("display"))
             {
                 // display the vending machine slots
-                ReadDataFile fileInput = new ReadDataFile();
-                List<Product> products = fileInput.loadFile();
+
                 for (Product product : products) {
                     System.out.println(product + " " + product.getInventory() + " left.");
                 }
@@ -52,7 +55,25 @@ public class VendingMachine
                         BigDecimal dollarAmount = new BigDecimal(dollarAmountReceived);
                         moneyProvided = moneyProvided.add(dollarAmount);
                     }
-
+                    if (option.equals("S")) {
+                        //  while (true) {
+                        for (Product product : products) {
+                            System.out.println(product + " " + product.getInventory() + " left.");
+                            }
+                        System.out.println();
+                        System.out.print("Please select an Item: ");
+                        String itemSelected = purchaseOption.nextLine();
+                        for (Product product : products)
+                        if (itemSelected.equals(product.getSlotIdentifier())) {
+                            System.out.println();
+                            System.out.println(product.getName() + " " + product.getPrice());
+                            System.out.println();
+                            moneyProvided = moneyProvided.subtract(product.getPrice());
+                            System.out.println("Current money provided: " + moneyProvided);
+                            product.setInventory(product.getInventory()-1);
+                        }
+                    }
+              //  }
                 }
             }
             else if(choice.equals("exit"))
@@ -62,5 +83,5 @@ public class VendingMachine
             }
         }
     }
-    
+
 }

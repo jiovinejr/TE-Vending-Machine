@@ -10,6 +10,10 @@ public abstract class Product {
     private final int MAXIMUM_INVENTORY = 6;
     private int inventory = MAXIMUM_INVENTORY;
 
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
     public Product(String slotIdentifier, String name, BigDecimal price, String type) {
         this.slotIdentifier = slotIdentifier;
         this.name = name;
@@ -52,6 +56,7 @@ public abstract class Product {
     public int getInventory() {
         return inventory;
     }
+
 
     @Override
     public String toString() {
