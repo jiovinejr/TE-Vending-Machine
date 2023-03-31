@@ -9,6 +9,7 @@ public abstract class Product {
     private String type;
     private final int MAXIMUM_INVENTORY = 6;
     private int inventory = MAXIMUM_INVENTORY;
+    private BigDecimal BOGODO = new BigDecimal("1.00");
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
@@ -56,6 +57,12 @@ public abstract class Product {
     public int getInventory() {
         return inventory;
     }
+
+    public BigDecimal applyDiscount() {
+        BigDecimal discountedPrice = getPrice().subtract(BOGODO);
+        return discountedPrice;
+    }
+
 
     public String message(String type) {
         String displayMessage = "";
