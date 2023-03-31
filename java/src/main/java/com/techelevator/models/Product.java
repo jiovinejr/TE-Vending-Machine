@@ -57,6 +57,20 @@ public abstract class Product {
         return inventory;
     }
 
+    public String message(String type) {
+        String displayMessage = "";
+        if (type.equals("Candy")) {
+            displayMessage = "Sugar,Sugar, so Sweet!";
+        } else if (type.equals("Munchy")) {
+            displayMessage = "Munchy, Munchy, so Good!";
+        } else if (type.equals("Drink")) {
+            displayMessage = "Drinky, Drinky, Slurp Slurp!";
+        } else if (type.equals("Gum")) {
+            displayMessage = "Chewy, Chewy, Lots O Bubbles!";
+        }
+        return displayMessage;
+    }
+
 
     @Override
     public String toString() {

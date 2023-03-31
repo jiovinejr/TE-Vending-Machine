@@ -19,4 +19,6 @@ public class Candy extends Product{
     public void setInventory(int inventory) {
         this.inventory = inventory;
     }
+
+
 }
