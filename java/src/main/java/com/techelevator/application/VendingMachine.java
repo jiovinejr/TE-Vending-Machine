@@ -1,6 +1,7 @@
 package com.techelevator.application;
 
 import com.techelevator.controller.Audit;
+import com.techelevator.controller.Financial;
 import com.techelevator.controller.ReadDataFile;
 import com.techelevator.models.Product;
 import com.techelevator.ui.UserInput;
@@ -55,11 +56,13 @@ public class VendingMachine {
                         System.out.println();
                         System.out.print("Please enter amount in whole dollars: ");
                         String dollarAmountReceived = purchaseOption.nextLine();
+                        System.out.println("***************************************************");
                         BigDecimal dollarAmount = new BigDecimal(dollarAmountReceived);
                         moneyProvided = moneyProvided.add(dollarAmount);
-                        Audit.log("MONEY FED:\t", dollarAmount, moneyProvided);
+                        Audit.log("MONEY FED:\t  ", dollarAmount, moneyProvided);
                     }
                     if (option.equals("S")) {
+                        System.out.println("***************************************************");
                         //  while (true) {
                         for (Product product : products) {
                             System.out.println(product + " " + product.getInventory() + " left.");
@@ -70,9 +73,11 @@ public class VendingMachine {
                         //takes care of any spaces and lowercase
                         String itemSelected = itemInput.trim().toUpperCase();
                         if (!productsMap.containsKey(itemSelected)) {
+                            System.out.println("***************************************************");
                             System.out.println("Item does not exist. Choose again!");
                             System.out.println();
                         } else {
+                            System.out.println("***************************************************");
                             boolean isSufficientFunds = false;
                             for (Product product : products) {
                                 if (product.getPrice().compareTo(moneyProvided) == -1) {//price > money provided.
@@ -84,94 +89,41 @@ public class VendingMachine {
                                         counter++;
                                         BigDecimal afterDiscount = new BigDecimal("0.00");
                                         if (counter % 2 == 0) {
-                                            afterDiscount = product.applyDiscount();
-                                            System.out.println();
+                                            afterDiscount = Financial.applyDiscount(product.getPrice());
                                         }
-                                        System.out.println();
                                         System.out.println(product.getName() + " " + product.getPrice());
-                                        System.out.println();
                                         if (afterDiscount.equals(new BigDecimal("0.00"))) {
                                             moneyProvided = moneyProvided.subtract(product.getPrice());
                                         } else {
                                             moneyProvided = moneyProvided.subtract(afterDiscount);
+                                            System.out.println();
                                             System.out.println("**ONE DOLLAR OFF SALE**");
+                                            System.out.println();
+                                            System.out.println(product.getName() + " " + afterDiscount);
                                         }
                                         UserOutput.displayMessage(product.message(product.getType()));
                                         System.out.println("Current money provided: " + moneyProvided);
+                                        System.out.println("***************************************************");
                                         product.setInventory(product.getInventory() - 1);
-                                        // check if user input relates to a product in our list
+                                        Audit.log(product.getName() + "\t\t" + product.getSlotIdentifier(), moneyProvided.add(product.getPrice()), moneyProvided);
+
                                     }
                                 }
+                            } if (!isSufficientFunds) {
+                                System.out.println("Insufficient Funds...");
+                                System.out.println("***************************************************");
 
                             }
-                            if (itemSelected.equals(product.getSlotIdentifier())) {
-                                counter++;
-                                doesProductExist = true;
-
-                                BigDecimal afterDiscount = new BigDecimal("0.00");
-                                if (counter % 2 == 0) {
-                                    afterDiscount = product.applyDiscount();
-
-                                    System.out.println();
-                                }
-                                System.out.println();
-                                System.out.println(product.getName() + " " + product.getPrice());
-                                System.out.println();
-                                if (afterDiscount.equals(new BigDecimal("0.00"))) {
-                                    moneyProvided = moneyProvided.subtract(product.getPrice());
-                                } else {
-                                    moneyProvided = moneyProvided.subtract(afterDiscount);
-                                    System.out.println("**ONE DOLLAR OFF SALE**");
-                                }
-                                UserOutput.displayMessage(product.message(product.getType()));
-                                System.out.println("Current money provided: " + moneyProvided);
-                                product.setInventory(product.getInventory() - 1);
-                                Audit.log(product.getName() +"\t  "+ product.getSlotIdentifier(), moneyProvided.add(product.getPrice()), moneyProvided);
-                            }
-
                         }
                     }
-                        if (option.equals("F")) {
-                            System.out.println("Thank you!");
-                            BigDecimal moneyLeft = new BigDecimal("0.00");
-                            moneyLeft = moneyProvided;
-
-                            BigDecimal dollar = new BigDecimal("1.00");
-                            BigDecimal quarter = new BigDecimal("0.25");
-                            BigDecimal dime = new BigDecimal("0.10");
-                            BigDecimal nickle = new BigDecimal("0.05");
-                            int dollarsGiven = 0;
-                            int quartersGiven = 0;
-                            int dimesGiven = 0;
-                            int nicklesGiven = 0;
-
-                            while (moneyProvided.compareTo(dollar) == 1 || moneyProvided.compareTo(dollar) == 0) {
-                                dollarsGiven++;
-                                moneyProvided = moneyProvided.subtract(dollar);
-
-                            }
-                            while (moneyProvided.compareTo(quarter) == 1 || moneyProvided.compareTo(quarter) == 0) {
-                                quartersGiven++;
-                                moneyProvided = moneyProvided.subtract(quarter);
-                            }
-                            while (moneyProvided.compareTo(dime) == 1 || moneyProvided.compareTo(dime) == 0) {
-                                dimesGiven++;
-                                moneyProvided = moneyProvided.subtract(dime);
-                            }
-                            while (moneyProvided.compareTo(nickle) == 1 || moneyProvided.compareTo(nickle) == 0) {
-                                nicklesGiven++;
-                                moneyProvided = moneyProvided.subtract(nickle);
-
-                            }
-                            System.out.println("Dispensing: " + dollarsGiven + " dollars, " + quartersGiven + " quarters, "
-                                    + dimesGiven + " dimes, and " + nicklesGiven + " nickles.");
-                            purchaseFlag = false;
-                            Audit.log("CHANGE GIVEN: ", moneyLeft, moneyProvided);
-                        }
-                        System.out.println("Dispensing: " + dollarsGiven + " dollars, " + quartersGiven + " quarters, "
-                                + dimesGiven + " dimes, and " + nicklesGiven + " nickles.");
+                    if (option.equals("F")) {
+                        BigDecimal moneyLeft = new BigDecimal("0.00");
+                        moneyLeft = moneyProvided;
+                        String change = Financial.giveChange(moneyProvided);
+                        System.out.println(change);
                         purchaseFlag = false;
-
+                        Audit.log("CHANGE:\t\t  ", moneyLeft, moneyProvided);
+                        System.out.println("Thank you!");
                     }
 
 

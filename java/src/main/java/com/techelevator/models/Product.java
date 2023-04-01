@@ -58,10 +58,6 @@ public abstract class Product {
         return inventory;
     }
 
-    public BigDecimal applyDiscount() {
-        BigDecimal discountedPrice = getPrice().subtract(BOGODO);
-        return discountedPrice;
-    }
 
 
     public String message(String type) {

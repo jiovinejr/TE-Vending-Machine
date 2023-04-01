@@ -27,6 +27,7 @@ public class UserInput
 
         String selectedOption = scanner.nextLine();
         String option = selectedOption.trim().toUpperCase();
+        System.out.println("***************************************************");
 
         if (option.equals("D"))
         {

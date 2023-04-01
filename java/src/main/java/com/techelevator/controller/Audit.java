@@ -27,7 +27,7 @@ public class Audit {
                 try(PrintWriter writer = new PrintWriter(new FileOutputStream(auditFile, true))){
                     writer.write(dtf.format(now));
                     writer.write(" " + message);
-                    writer.write("\t"+ dollarFormat.format(money));
+                    writer.write(" "+ dollarFormat.format(money));
                     writer.println(" " + dollarFormat.format(moneyLeft));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -37,7 +37,7 @@ public class Audit {
                 try(PrintWriter writer = new PrintWriter(auditFile)) {
                     writer.write(dtf.format(now));
                     writer.write( " " + message);
-                    writer.write("\t"+ dollarFormat.format(money));
+                    writer.write(" "+ dollarFormat.format(money));
                     writer.println(" " + dollarFormat.format(moneyLeft));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
