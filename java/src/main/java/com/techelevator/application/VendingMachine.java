@@ -1,5 +1,6 @@
 package com.techelevator.application;
 
+import com.techelevator.controller.Audit;
 import com.techelevator.controller.ReadDataFile;
 import com.techelevator.models.Product;
 import com.techelevator.ui.UserInput;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class VendingMachine {
+
     public void run() {
 
         BigDecimal BOGODO = new BigDecimal("1.00");
@@ -52,6 +54,7 @@ public class VendingMachine {
                         String dollarAmountReceived = purchaseOption.nextLine();
                         BigDecimal dollarAmount = new BigDecimal(dollarAmountReceived);
                         moneyProvided = moneyProvided.add(dollarAmount);
+                        Audit.log("MONEY FED:\t", dollarAmount, moneyProvided);
                     }
                     if (option.equals("S")) {
                         //  while (true) {
@@ -91,7 +94,7 @@ public class VendingMachine {
                                 UserOutput.displayMessage(product.message(product.getType()));
                                 System.out.println("Current money provided: " + moneyProvided);
                                 product.setInventory(product.getInventory() - 1);
-                                // check if user input relates to a product in our list
+                                Audit.log(product.getName() +"\t  "+ product.getSlotIdentifier(), moneyProvided.add(product.getPrice()), moneyProvided);
                             }
 
                         }
@@ -104,8 +107,9 @@ public class VendingMachine {
                     }
                         if (option.equals("F")) {
                             System.out.println("Thank you!");
-                           // BigDecimal moneyLeft = new BigDecimal("0.00");
-                            //moneyProvided;
+                            BigDecimal moneyLeft = new BigDecimal("0.00");
+                            moneyLeft = moneyProvided;
+
                             BigDecimal dollar = new BigDecimal("1.00");
                             BigDecimal quarter = new BigDecimal("0.25");
                             BigDecimal dime = new BigDecimal("0.10");
@@ -115,20 +119,20 @@ public class VendingMachine {
                             int dimesGiven = 0;
                             int nicklesGiven = 0;
 
-                            if (moneyProvided.compareTo(dollar) == 1 || moneyProvided.compareTo(dollar) == 0) {
+                            while (moneyProvided.compareTo(dollar) == 1 || moneyProvided.compareTo(dollar) == 0) {
                                 dollarsGiven++;
                                 moneyProvided = moneyProvided.subtract(dollar);
 
                             }
-                            if (moneyProvided.compareTo(quarter) == 1 || moneyProvided.compareTo(quarter) == 0) {
+                            while (moneyProvided.compareTo(quarter) == 1 || moneyProvided.compareTo(quarter) == 0) {
                                 quartersGiven++;
                                 moneyProvided = moneyProvided.subtract(quarter);
                             }
-                            if (moneyProvided.compareTo(dime) == 1 || moneyProvided.compareTo(dime) == 0) {
+                            while (moneyProvided.compareTo(dime) == 1 || moneyProvided.compareTo(dime) == 0) {
                                 dimesGiven++;
                                 moneyProvided = moneyProvided.subtract(dime);
                             }
-                            if (moneyProvided.compareTo(nickle) == 1 || moneyProvided.compareTo(nickle) == 0) {
+                            while (moneyProvided.compareTo(nickle) == 1 || moneyProvided.compareTo(nickle) == 0) {
                                 nicklesGiven++;
                                 moneyProvided = moneyProvided.subtract(nickle);
 
@@ -136,7 +140,7 @@ public class VendingMachine {
                             System.out.println("Dispensing: " + dollarsGiven + " dollars, " + quartersGiven + " quarters, "
                                     + dimesGiven + " dimes, and " + nicklesGiven + " nickles.");
                             purchaseFlag = false;
-
+                            Audit.log("CHANGE GIVEN: ", moneyLeft, moneyProvided);
                         }
 
                     }
