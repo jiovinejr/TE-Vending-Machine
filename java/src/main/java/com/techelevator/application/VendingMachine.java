@@ -117,20 +117,20 @@ public class VendingMachine {
 
                             if (moneyProvided.compareTo(dollar) == 1 || moneyProvided.compareTo(dollar) == 0) {
                                 dollarsGiven++;
-                                moneyProvided.subtract(dollar);
+                                moneyProvided = moneyProvided.subtract(dollar);
 
                             }
                             if (moneyProvided.compareTo(quarter) == 1 || moneyProvided.compareTo(quarter) == 0) {
                                 quartersGiven++;
-                                moneyProvided.subtract(quarter);
+                                moneyProvided = moneyProvided.subtract(quarter);
                             }
                             if (moneyProvided.compareTo(dime) == 1 || moneyProvided.compareTo(dime) == 0) {
                                 dimesGiven++;
-                                moneyProvided.subtract(dime);
+                                moneyProvided = moneyProvided.subtract(dime);
                             }
                             if (moneyProvided.compareTo(nickle) == 1 || moneyProvided.compareTo(nickle) == 0) {
                                 nicklesGiven++;
-                                moneyProvided.subtract(nickle);
+                                moneyProvided = moneyProvided.subtract(nickle);
 
                             }
                             System.out.println("Dispensing: " + dollarsGiven + " dollars, " + quartersGiven + " quarters, "
