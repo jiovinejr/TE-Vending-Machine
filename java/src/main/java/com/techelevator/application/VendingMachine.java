@@ -1,5 +1,6 @@
 package com.techelevator.application;
 
+import com.techelevator.controller.Audit;
 import com.techelevator.controller.ReadDataFile;
 import com.techelevator.models.Product;
 import com.techelevator.ui.UserInput;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class VendingMachine {
+
     public void run() {
 
         ReadDataFile fileInput = new ReadDataFile();
@@ -55,7 +57,7 @@ public class VendingMachine {
                         String dollarAmountReceived = purchaseOption.nextLine();
                         BigDecimal dollarAmount = new BigDecimal(dollarAmountReceived);
                         moneyProvided = moneyProvided.add(dollarAmount);
-
+                        Audit.log("MONEY FED:\t", dollarAmount, moneyProvided);
                     }
                     if (option.equals("S")) {
                         //  while (true) {
@@ -102,43 +104,69 @@ public class VendingMachine {
                                 }
 
                             }
-                            if (!isSufficientFunds) {
-                                System.out.println("Insufficient Funds...");
+                            if (itemSelected.equals(product.getSlotIdentifier())) {
+                                counter++;
+                                doesProductExist = true;
+
+                                BigDecimal afterDiscount = new BigDecimal("0.00");
+                                if (counter % 2 == 0) {
+                                    afterDiscount = product.applyDiscount();
+
+                                    System.out.println();
+                                }
+                                System.out.println();
+                                System.out.println(product.getName() + " " + product.getPrice());
+                                System.out.println();
+                                if (afterDiscount.equals(new BigDecimal("0.00"))) {
+                                    moneyProvided = moneyProvided.subtract(product.getPrice());
+                                } else {
+                                    moneyProvided = moneyProvided.subtract(afterDiscount);
+                                    System.out.println("**ONE DOLLAR OFF SALE**");
+                                }
+                                UserOutput.displayMessage(product.message(product.getType()));
+                                System.out.println("Current money provided: " + moneyProvided);
+                                product.setInventory(product.getInventory() - 1);
+                                Audit.log(product.getName() +"\t  "+ product.getSlotIdentifier(), moneyProvided.add(product.getPrice()), moneyProvided);
                             }
 
                         }
                     }
+                        if (option.equals("F")) {
+                            System.out.println("Thank you!");
+                            BigDecimal moneyLeft = new BigDecimal("0.00");
+                            moneyLeft = moneyProvided;
 
+                            BigDecimal dollar = new BigDecimal("1.00");
+                            BigDecimal quarter = new BigDecimal("0.25");
+                            BigDecimal dime = new BigDecimal("0.10");
+                            BigDecimal nickle = new BigDecimal("0.05");
+                            int dollarsGiven = 0;
+                            int quartersGiven = 0;
+                            int dimesGiven = 0;
+                            int nicklesGiven = 0;
 
-                    if (option.equals("F")) {
-                        System.out.println("Thank you!");
-                        // BigDecimal moneyLeft = new BigDecimal("0.00");
-                        //moneyProvided;
-                        BigDecimal dollar = new BigDecimal("1.00");
-                        BigDecimal quarter = new BigDecimal("0.25");
-                        BigDecimal dime = new BigDecimal("0.10");
-                        BigDecimal nickle = new BigDecimal("0.05");
-                        int dollarsGiven = 0;
-                        int quartersGiven = 0;
-                        int dimesGiven = 0;
-                        int nicklesGiven = 0;
+                            while (moneyProvided.compareTo(dollar) == 1 || moneyProvided.compareTo(dollar) == 0) {
+                                dollarsGiven++;
+                                moneyProvided = moneyProvided.subtract(dollar);
 
-                        while (moneyProvided.compareTo(dollar) == 1 || moneyProvided.compareTo(dollar) == 0) {
-                            dollarsGiven++;
-                            moneyProvided = moneyProvided.subtract(dollar);
-                        }
-                        while (moneyProvided.compareTo(quarter) == 1 || moneyProvided.compareTo(quarter) == 0) {
-                            quartersGiven++;
-                            moneyProvided = moneyProvided.subtract(quarter);
-                        }
-                        while (moneyProvided.compareTo(dime) == 1 || moneyProvided.compareTo(dime) == 0) {
-                            dimesGiven++;
-                            moneyProvided = moneyProvided.subtract(dime);
-                        }
-                        while (moneyProvided.compareTo(nickle) == 1 || moneyProvided.compareTo(nickle) == 0) {
-                            nicklesGiven++;
-                            moneyProvided = moneyProvided.subtract(nickle);
+                            }
+                            while (moneyProvided.compareTo(quarter) == 1 || moneyProvided.compareTo(quarter) == 0) {
+                                quartersGiven++;
+                                moneyProvided = moneyProvided.subtract(quarter);
+                            }
+                            while (moneyProvided.compareTo(dime) == 1 || moneyProvided.compareTo(dime) == 0) {
+                                dimesGiven++;
+                                moneyProvided = moneyProvided.subtract(dime);
+                            }
+                            while (moneyProvided.compareTo(nickle) == 1 || moneyProvided.compareTo(nickle) == 0) {
+                                nicklesGiven++;
+                                moneyProvided = moneyProvided.subtract(nickle);
 
+                            }
+                            System.out.println("Dispensing: " + dollarsGiven + " dollars, " + quartersGiven + " quarters, "
+                                    + dimesGiven + " dimes, and " + nicklesGiven + " nickles.");
+                            purchaseFlag = false;
+                            Audit.log("CHANGE GIVEN: ", moneyLeft, moneyProvided);
                         }
                         System.out.println("Dispensing: " + dollarsGiven + " dollars, " + quartersGiven + " quarters, "
                                 + dimesGiven + " dimes, and " + nicklesGiven + " nickles.");
