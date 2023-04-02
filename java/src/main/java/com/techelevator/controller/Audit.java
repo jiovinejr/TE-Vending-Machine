@@ -22,14 +22,14 @@ public class Audit {
         Locale usa = new Locale("en", "US");
         Currency dollar = Currency.getInstance(usa);
         NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
-        String columnFormat = "%-18, %2, %8.2f, %8.2f";
+        String columnFormat = "%-18s %2s";
 
             if(auditFile.exists()){
                 try(PrintWriter writer = new PrintWriter(new FileOutputStream(auditFile, true))){
                     writer.write(dtf.format(now));
-                    writer.write(" " + message);
-                    writer.write(" "+ dollarFormat.format(money));
-                    writer.println(" " + dollarFormat.format(moneyLeft));
+                    writer.printf(columnFormat, " " + message, slot);
+                    writer.printf("%8s"," "+ dollarFormat.format(money));
+                    writer.printf("%8s"," " + dollarFormat.format(moneyLeft) + "\n");
                    // writer.printf(columnFormat, message, slot, money, moneyLeft);
 
                 } catch (FileNotFoundException e) {
@@ -40,9 +40,9 @@ public class Audit {
             else {
                 try(PrintWriter writer = new PrintWriter(auditFile)) {
                     writer.write(dtf.format(now));
-                    writer.write( " " + message);
-                    writer.write(" "+ dollarFormat.format(money));
-                    writer.println(" " + dollarFormat.format(moneyLeft));
+                    writer.printf(columnFormat, " " + message, slot);
+                    writer.printf("%8s"," "+ dollarFormat.format(money));
+                    writer.printf("%8s"," " + dollarFormat.format(moneyLeft) + "\n");
              //       writer.printf(columnFormat, message, slot, money, moneyLeft);
                 } catch (FileNotFoundException e) {
                     System.out.println("ERROR");

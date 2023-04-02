@@ -59,7 +59,7 @@ public class VendingMachine {
                         System.out.println("***************************************************");
                         BigDecimal dollarAmount = new BigDecimal(dollarAmountReceived);
                         moneyProvided = moneyProvided.add(dollarAmount);
-                        Audit.log("MONEY FED:", "  ", dollarAmount, moneyProvided);
+                        Audit.log("MONEY FED: ", "  ", dollarAmount, moneyProvided);
                     }
                     if (option.equals("S")) {
                         System.out.println("***************************************************");
@@ -123,7 +123,7 @@ public class VendingMachine {
                         System.out.println(change);
                         counter = 0;
                         purchaseFlag = false;
-                        Audit.log("CHANGE:","  ", moneyLeft, moneyProvided);
+                        Audit.log("CHANGE: ","  ", moneyLeft, moneyProvided);
                         System.out.println("Thank you!");
                     }
 
