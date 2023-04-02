@@ -58,8 +58,16 @@ public class VendingMachine {
                         String dollarAmountReceived = purchaseOption.nextLine();
                         System.out.println("***************************************************");
                         BigDecimal dollarAmount = new BigDecimal(dollarAmountReceived);
-                        moneyProvided = moneyProvided.add(dollarAmount);
-                        Audit.log("MONEY FED: ", "  ", dollarAmount, moneyProvided);
+                        if (dollarAmount.compareTo(new BigDecimal("1")) == 0
+                            || dollarAmount.compareTo(new BigDecimal("5")) == 0
+                            || dollarAmount.compareTo(new BigDecimal("10")) == 0
+                            || dollarAmount.compareTo(new BigDecimal("20")) == 0){
+                            moneyProvided = moneyProvided.add(dollarAmount);
+                            Audit.log("MONEY FED: ", "  ", dollarAmount, moneyProvided);
+                        } else {
+                            System.out.println("Unacceptable dollar amount.");
+                            System.out.println("***************************************************");
+                        }
                     }
                     if (option.equals("S")) {
                         System.out.println("***************************************************");
