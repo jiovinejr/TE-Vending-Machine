@@ -13,7 +13,7 @@ import java.util.Currency;
 import java.util.Locale;
 
 public class Audit {
-    public static void log(String message, BigDecimal money, BigDecimal moneyLeft){
+    public static void log(String message, String slot, BigDecimal money, BigDecimal moneyLeft){
 
             File auditFile = new File("audit.txt");
 
@@ -22,6 +22,7 @@ public class Audit {
         Locale usa = new Locale("en", "US");
         Currency dollar = Currency.getInstance(usa);
         NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
+        String columnFormat = "%-18, %2, %8.2f, %8.2f";
 
             if(auditFile.exists()){
                 try(PrintWriter writer = new PrintWriter(new FileOutputStream(auditFile, true))){
@@ -29,8 +30,11 @@ public class Audit {
                     writer.write(" " + message);
                     writer.write(" "+ dollarFormat.format(money));
                     writer.println(" " + dollarFormat.format(moneyLeft));
+                   // writer.printf(columnFormat, message, slot, money, moneyLeft);
+
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("ERROR");
+                    //e.printStackTrace();
                 }
             }
             else {
@@ -39,8 +43,10 @@ public class Audit {
                     writer.write( " " + message);
                     writer.write(" "+ dollarFormat.format(money));
                     writer.println(" " + dollarFormat.format(moneyLeft));
+             //       writer.printf(columnFormat, message, slot, money, moneyLeft);
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("ERROR");
+                   // e.printStackTrace();
                 }
             }
 }
