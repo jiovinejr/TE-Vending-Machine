@@ -121,6 +121,7 @@ public class VendingMachine {
                         moneyLeft = moneyProvided;
                         String change = Financial.giveChange(moneyProvided);
                         System.out.println(change);
+                        counter = 0;
                         purchaseFlag = false;
                         Audit.log("CHANGE:\t\t  ", moneyLeft, moneyProvided);
                         System.out.println("Thank you!");
