@@ -121,6 +121,7 @@ public class VendingMachine {
                         moneyLeft = moneyProvided;
                         String change = Financial.giveChange(moneyProvided);
                         System.out.println(change);
+                        moneyProvided = new BigDecimal("0.00");
                         counter = 0;
                         purchaseFlag = false;
                         Audit.log("CHANGE: ","  ", moneyLeft, moneyProvided);
